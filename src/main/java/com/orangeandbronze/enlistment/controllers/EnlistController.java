@@ -57,7 +57,6 @@ class EnlistController {
 	
 	@ExceptionHandler(EnlistmentException.class)
 	String handleException(RedirectAttributes redirectAttrs, EnlistmentException e) {
-		System.out.println("handleException");
 		redirectAttrs.addFlashAttribute("enlistmentExceptionMessage", e.getMessage());
 		return "redirect:enlist";
 	}

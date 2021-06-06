@@ -18,7 +18,7 @@ public class Section {
 	private final Room room;
 	private int numStudentsEnlisted = 0;
 	private final ReentrantLock lock = new ReentrantLock();
-	
+
 	/** factory method to assemble a new section using the hard-coded dummy data */
 	public static Section of(String sectionId, String subjectId, String days, String period, String roomName) {
 		var subject = SUBJECTS.stream().filter(subj -> subj.getSubjectId().equals(subjectId)).findFirst().get();
@@ -37,13 +37,20 @@ public class Section {
 		this.subject = subject;
 		this.schedule = schedule;
 		this.room = room;
+		room.add(this);
 	}
 
-	void checkConflict(Section other) {
-		this.schedule.checkOverlap(other.schedule);
+	boolean hasScheduleConflict(Section other) {
+		notNull(other);
+		return this.schedule.hasOverlap(other.schedule);
+	}
+
+	void checkSameSubject(Section other) {
+		notNull(other);
 		if (this.subject.equals(other.subject)) {
 			throw new SameSubjectException(
-					"this section " + this + " and other section " + other + " have same subject " + subject);
+					"This section " + this + " and other section " + other + " have same subject " + subject);
+
 		}
 	}
 
@@ -52,13 +59,13 @@ public class Section {
 		notNull(subjectsTaken);
 		subject.checkPrereqs(subjectsTaken);
 	}
-	
+
 	/** Increases the number of students enlisted by 1 **/
 	void incrementNumStudentsEnlisted() {
 		room.checkCapacity(numStudentsEnlisted);
 		numStudentsEnlisted++;
 	}
-	
+
 	void decrementNumStudentsEnlisted() {
 		numStudentsEnlisted--;
 	}
@@ -72,11 +79,11 @@ public class Section {
 	void unlock() {
 		lock.unlock();
 	}
-	
+
 	public int getNumStudentsEnlisted() {
 		return numStudentsEnlisted;
 	}
-	
+
 	public String getSectionId() {
 		return sectionId;
 	}

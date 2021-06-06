@@ -42,6 +42,12 @@ class SectionsController {
 		redirectAttrs.addFlashAttribute("sectionSuccessMessage", "Successfully created new section " + sectionId);
 		return "redirect:sections";
 	}
+	
+	@ExceptionHandler(EnlistmentException.class)
+	String handleException(RedirectAttributes redirectAttrs, EnlistmentException e) {
+		redirectAttrs.addFlashAttribute("sectionExceptionMessage", e.getMessage());
+		return "redirect:sections";
+	}
 
 	void setSubjectRepo(SubjectRepository subjectRepo) {
 		this.subjectRepo = subjectRepo;

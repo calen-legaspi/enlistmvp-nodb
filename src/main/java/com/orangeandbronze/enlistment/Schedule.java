@@ -16,12 +16,12 @@ class Schedule {
 		this.period = period;
 	}
 	
-	void checkOverlap(Schedule other) {
+	boolean hasOverlap(Schedule other) {
 		notNull(other);
-		if (this.days.equals(other.days)) {
-			this.period.checkOverlap(other.period);
-		}
-	}
+		return this.days.equals(other.days) && this.period.hasOverlap(other.period);
+	} 
+	
+
 	
 	@Override
 	public String toString() {

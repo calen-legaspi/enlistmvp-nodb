@@ -25,7 +25,8 @@ class PeriodTest {
 	@ParameterizedTest
 	@MethodSource("params")
 	void checkOverlap(Period p1, Period p2) {
-		assertThrows(ScheduleConflictException.class, () -> p1.checkOverlap(p2));
+		assertEquals(true, p1.hasOverlap(p2));
+//		assertThrows(ScheduleConflictException.class, () -> p1.checkOverlap(p2));
 	}
 
 }

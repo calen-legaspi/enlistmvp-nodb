@@ -15,9 +15,9 @@ class StudentTest {
 	@Test
 	void enlist_2_sections_no_conflict() {
 		// Given one student and 2 sections no overlapping skeds
-		Student student = new Student(1, "", "");
-		Section sec1 = new Section("A", new Subject("English"), MTH830to10, DEFUALT_ROOM);
-		Section sec2 = new Section("B", new Subject("Math"), TF10to1130, DEFUALT_ROOM);
+		Student student = newDefaultStudent();
+		Section sec1 = new Section("A", new Subject("English"), MTH830to10, new Room("X", 10));
+		Section sec2 = new Section("B", new Subject("Math"), TF10to1130, new Room("Y", 10));
 
 		// When the student enlists in both sections
 		student.enlist(sec1);
@@ -31,9 +31,9 @@ class StudentTest {
 	@Test
 	void enlist_2_sections_same_schedule() {
 		// Given one student and 2 sections w/ same sked
-		Student student = new Student(1, "x", "x");
-		Section sec1 = new Section("A", DEFAULT_SUBJECT, MTH830to10, DEFUALT_ROOM);
-		Section sec2 = new Section("B", DEFAULT_SUBJECT, MTH830to10, DEFUALT_ROOM);
+		Student student = newDefaultStudent();
+		Section sec1 = new Section("A", DEFAULT_SUBJECT, MTH830to10, new Room("X", 10));
+		Section sec2 = new Section("B", DEFAULT_SUBJECT, MTH830to10, new Room("Y", 10));
 		// When the student enlists in both sections
 		student.enlist(sec1);
 		// Then an exception should be thrown in the second enlistment
@@ -43,10 +43,10 @@ class StudentTest {
 	@Test
 	void enlist_2_sections_overlapping_schedule() {
 		// Given one student and 2 sections w/ same sked
-		Student student = new Student(1, "x", "x");
-		Section sec1 = new Section("A", DEFAULT_SUBJECT, MTH830to10, DEFUALT_ROOM);
+		Student student = newDefaultStudent();
+		Section sec1 = new Section("A", DEFAULT_SUBJECT, MTH830to10, new Room("X", 10));
 		Section sec2 = new Section("B", DEFAULT_SUBJECT,
-				new Schedule(MTH, new Period(LocalTime.of(9, 0), LocalTime.of(11, 0))), DEFUALT_ROOM);
+				new Schedule(MTH, new Period(LocalTime.of(9, 0), LocalTime.of(11, 0))), new Room("Y", 10));
 		// When the student enlists in both sections
 		student.enlist(sec1);
 		// Then an exception should be thrown in the second enlistment
@@ -116,7 +116,7 @@ class StudentTest {
 		// Given a student wants to enlist in a section but has missing prerequisites
 		Subject subject = new Subject("Math3", List.of(new Subject("Math2"), new Subject("Math1")));
 		Student student = new Student(1, "x", "x", List.of(new Subject("Math1"))); // student has only one prereq
-		Section section = new Section("X", subject, MTH830to10, DEFUALT_ROOM);
+		Section section = new Section("X", subject, MTH830to10, new Room("X", 10));
 
 		// When student tries to enlist, Then exception is thrown
 		Exception e = assertThrows(PrerequisiteException.class, () -> student.enlist(section));

@@ -23,13 +23,13 @@ class Period {
 	}
 	
 	private static void checkMinutes(LocalTime time) {
+		notNull(time);
 		isTrue(time.getMinute() == 0 || time.getMinute() == 30, "time must end at :00 or :30, was " + time);
 	}
 	
-	void checkOverlap(Period other) {
-		if (this.start.isBefore(other.end) && this.end.isAfter(other.start)) {
-			throw new ScheduleConflictException("this period " + this + " overlaps with other period " + other);
-		}
+	boolean hasOverlap(Period other) {
+		notNull(other);
+		return this.start.isBefore(other.end) && this.end.isAfter(other.start);
 	}
 
 	LocalTime getStart() {

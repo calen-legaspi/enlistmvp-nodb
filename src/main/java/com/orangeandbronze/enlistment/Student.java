@@ -12,7 +12,8 @@ public class Student {
 	private final String firstname;
 	private final String lastname;
 
-	Student(int studentNumber, String firstname, String lastname, Collection<Section> sections, Collection<Subject> subjectsTaken) {
+	Student(int studentNumber, String firstname, String lastname, Collection<Section> sections,
+			Collection<Subject> subjectsTaken) {
 		isTrue(studentNumber >= 0, "studentNumber should be non-negative, was: " + studentNumber);
 		notBlank(firstname);
 		notBlank(lastname);
@@ -38,7 +39,13 @@ public class Student {
 
 	public void enlist(Section newSection) {
 		notNull(newSection);
-		sections.forEach(currSection -> currSection.checkConflict(newSection));
+		sections.forEach(currSection -> {
+			if (currSection.hasScheduleConflict(newSection)) {
+				throw new ScheduleConflictException("Current section " + currSection + " with schedule "
+						+ currSection.getSchedule() + " has schedule conflict with new secton " + newSection
+						+ " at schedule " + newSection.getSchedule());
+			}
+		});
 		newSection.checkPrereq(subjectsTaken);
 		newSection.lock();
 		// make sure only one thread at a time
@@ -49,7 +56,7 @@ public class Student {
 			newSection.unlock();
 		}
 	}
-	
+
 	public void cancel(Section section) {
 		notNull(section);
 		section.lock();
@@ -61,7 +68,6 @@ public class Student {
 			section.unlock();
 		}
 	}
-	
 
 	public int getStudentNumber() {
 		return studentNumber;
