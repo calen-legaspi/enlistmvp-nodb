@@ -1,0 +1,95 @@
+<!-- Start Header -->
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="shortcut icon" href="favicon.ico" />
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+	crossorigin="anonymous">
+</head>
+<!-- End Header -->
+<body>
+	<title>Enlistment</title>
+	<div class="container-fluid">
+		<h1>
+			Enlistment for <span th:text="${student.firstname}">Calen</span> <span
+				th:text="${student.lastname}">Legaspi</span>, SN#<span
+				th:text="${student.studentNumber}">1000</span> <a href="login.html">Logout</a>
+		</h1>
+		<div th:if="${enlistmentExceptionMessage}" class="alert alert-danger">
+			<h2 th:text="${enlistmentExceptionMessage}">Error message goes
+				here.</h2>
+		</div>
+		<div class="row">
+
+			<div class="col-md-6">
+				<h2>Currently Enlisted Sections</h2>
+				<table class="table table-bordered" id="enlisted_table">
+					<tr>
+						<th>Section</th>
+						<th>Subject</th>
+						<th>Schedule</th>
+						<th>Room</th>
+						<!--th>Faculty</th-->
+						<th></th>
+					</tr>
+
+					<tr th:id="${sectionInfo.sectionId}"
+						th:each="sectionInfo : ${enlistedSections}">
+						<td th:text="${sectionInfo.sectionId}">sectionID</td>
+						<td th:text="${sectionInfo.subject}">${sectionInfo.subjectId}</td>
+						<td th:text="${sectionInfo.schedule}">${sectionInfo.schedule}</td>
+						<td th:text="${sectionInfo.room}">${sectionInfo.roomName}</td>
+						<!--td>${sectionInfo.faculty}</td-->
+						<td><form action="enlist" method="post">
+								<input type="hidden" name="sectionId"
+									th:value="${sectionInfo.sectionId}"> <input type="hidden"
+									name="userAction" th:value="cancel" /><input class="btn"
+									type="submit" value="Cancel">
+							</form></td>
+					</tr>
+				</table>
+			</div>
+			<div class="col-md-6">
+				<h2>Sections Available for Enlistment</h2>
+
+				<table class="table table-bordered" id="available_table">
+					<tr>
+						<th>Section ID</th>
+						<th>Subject</th>
+						<th>Schedule</th>
+						<th>Room</th>
+						<!--th>Faculty</th-->
+						<th></th>
+					</tr>
+					<tr th:id="${sectionInfo.sectionId}"
+						th:each="sectionInfo : ${availableSections}">
+						<td th:text="${sectionInfo.sectionId}">sectionID</td>
+						<td th:text="${sectionInfo.subject}">${sectionInfo.subjectId}</td>
+						<td th:text="${sectionInfo.schedule}">${sectionInfo.schedule}</td>
+						<td th:text="${sectionInfo.room}">${sectionInfo.roomName}</td>
+						<!--td>${sectionInfo.faculty}</td-->
+						<td><form action="enlist" method="post">
+								<input type="hidden" name="sectionId"
+									th:value="${sectionInfo.sectionId}"> <input
+									type="hidden" name="userAction" th:value="enlist" /> <input
+									class="btn" type="submit" value="Enlist">
+							</form></td>
+					</tr>
+				</table>
+
+			</div>
+		</div>
+	</div>
+	<!-- Start Footer -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+		crossorigin="anonymous"></script>
+</body>
+</html>
+<!-- End Footer -->
