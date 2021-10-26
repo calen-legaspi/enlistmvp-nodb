@@ -14,8 +14,8 @@ class SectionsController {
 
 	private SubjectRepository subjectRepo = new SubjectRepository();
 	private AdminRepository adminRepo = new AdminRepository();
-	private RoomRepository roomRepo = new RoomRepository();
-	private SectionRepository sectionRepo = new SectionRepository();
+	private final RoomRepository roomRepo = new RoomRepository();
+	private final SectionRepository sectionRepo = new SectionRepository();
 
 	@ModelAttribute("admin")
 	Admin admin(@RequestParam Integer id) {

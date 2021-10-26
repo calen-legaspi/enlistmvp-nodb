@@ -123,11 +123,8 @@ public class Section {
 			return false;
 		Section other = (Section) obj;
 		if (sectionId == null) {
-			if (other.sectionId != null)
-				return false;
-		} else if (!sectionId.equals(other.sectionId))
-			return false;
-		return true;
+			return other.sectionId == null;
+		} else return sectionId.equals(other.sectionId);
 	}
 
 }

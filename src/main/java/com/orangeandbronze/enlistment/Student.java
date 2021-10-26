@@ -111,9 +111,7 @@ public class Student {
 		if (getClass() != obj.getClass())
 			return false;
 		Student other = (Student) obj;
-		if (studentNumber != other.studentNumber)
-			return false;
-		return true;
+		return studentNumber == other.studentNumber;
 	}
 
 }

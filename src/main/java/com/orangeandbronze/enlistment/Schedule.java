@@ -48,9 +48,7 @@ class Schedule {
 		Schedule other = (Schedule) obj;
 		if (days != other.days)
 			return false;
-		if (period != other.period)
-			return false;
-		return true;
+		return period == other.period;
 	}
 	
 	

@@ -61,7 +61,7 @@ class DATA {
 			new Schedule(TF, new Period(LocalTime.of(16, 00), LocalTime.of(17, 30))), SMALL_ROOM);
 	final static Collection<Section> SECTIONS = new HashSet<>(List.of(ABC, DEF, GHI, JKL, MNO, PQR, STU, VWX, YZA));
 
-	static enum PERIODS {
+	enum PERIODS {
 		P0830(new Period(LocalTime.of(8, 30), LocalTime.of(10, 0))),
 		P1000(new Period(LocalTime.of(10, 0), LocalTime.of(11, 30))),
 		P1130(new Period(LocalTime.of(11, 30), LocalTime.of(13, 0))),

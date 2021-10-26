@@ -47,31 +47,17 @@ class Subject {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((prerequisites == null) ? 0 : prerequisites.hashCode());
-		result = prime * result + ((subjectId == null) ? 0 : subjectId.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Subject subject = (Subject) o;
+
+		return subjectId != null ? subjectId.equals(subject.subjectId) : subject.subjectId == null;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Subject other = (Subject) obj;
-		if (prerequisites == null) {
-			if (other.prerequisites != null)
-				return false;
-		} else if (!prerequisites.equals(other.prerequisites))
-			return false;
-		if (subjectId == null) {
-			return other.subjectId == null;
-		} else return subjectId.equals(other.subjectId);
+	public int hashCode() {
+		return subjectId != null ? subjectId.hashCode() : 0;
 	}
-
 }
