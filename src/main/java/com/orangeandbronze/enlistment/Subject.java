@@ -10,15 +10,16 @@ import static org.apache.commons.lang3.StringUtils.*;
 class Subject {
 
 	private final String subjectId;
-	private final Set<Subject> prerequisites = new HashSet<>();
+	private final Set<Subject> prerequisites;
 
 	Subject(String subjectId, Collection<Subject> prerequisites) {
 		notBlank(subjectId);
 		isTrue(isAlphanumeric(subjectId), "sectionId must be alphanumeric, was: " + subjectId);
 		notNull(prerequisites);
 		this.subjectId = subjectId;
-		this.prerequisites.addAll(prerequisites);
-		this.prerequisites.remove(null); // remove null
+		Set<Subject> copy = new HashSet<>(prerequisites);
+		copy.remove(null); // remove any null
+		this.prerequisites = Collections.unmodifiableSet(copy);
 	}
 
 	/** Instantiate with no prerequisites. **/
@@ -29,9 +30,10 @@ class Subject {
 	/** Checks if all prereqs present for this subject **/
 	void checkPrereqs(Collection<Subject> subjectsTaken) {
 		notNull(subjectsTaken);
-		if (!subjectsTaken.containsAll(prerequisites)) {
+		Set<Subject> copy = new HashSet<>(subjectsTaken);
+		if (!copy.containsAll(prerequisites)) {
 			throw new PrerequisiteException(
-					"missing prereqs: " + CollectionUtils.removeAll(prerequisites, subjectsTaken));
+					"missing prereqs: " + CollectionUtils.removeAll(prerequisites, copy));
 		}
 	}
 	
@@ -68,11 +70,8 @@ class Subject {
 		} else if (!prerequisites.equals(other.prerequisites))
 			return false;
 		if (subjectId == null) {
-			if (other.subjectId != null)
-				return false;
-		} else if (!subjectId.equals(other.subjectId))
-			return false;
-		return true;
+			return other.subjectId == null;
+		} else return subjectId.equals(other.subjectId);
 	}
 
 }
